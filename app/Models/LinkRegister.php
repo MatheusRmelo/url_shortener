@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends Model
+class LinkRegister extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'slug',
-        'user_id',
-        'url',
-        'hits'
+        'link_id',
+        'request_ip',
+        'user_agent'
     ];
 }
