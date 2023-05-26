@@ -41,4 +41,13 @@ trait ApiResponse
             'message' => $message,
         ], 403);
     }
+
+    protected function notFound($result = null, string $message = 'Não encontrado') : JsonResponse
+    {
+        return response()->json([
+            'ok' => false,
+            'result' => $result,
+            'message' => $message,
+        ], 404);
+    }
 }
