@@ -22,11 +22,26 @@ class StoreTest extends TestCase
         ]);
     }
 
-    public function testSuccessStore()
+    /**
+     * @dataProvider correctlyData
+     */
+    public function testSuccessStore(array $data)
     {
-        $this->post('/api/links', [
-            'url' => 'http://example.com/to-encode'
-        ])->assertStatus(201);
+        $this->post('/api/links', $data)
+        ->assertStatus(201);
+    }
+
+    public function correctlyData()
+    {
+        return [
+            'with-slug' => [[
+                'url' => 'http://example.com/to-encode',
+                'slug' => 'test-slug',
+            ]],
+            'without-slug' => [[
+                'url' => 'http://example.com/ewqewqe'
+            ]]
+        ];
     }
 
 }

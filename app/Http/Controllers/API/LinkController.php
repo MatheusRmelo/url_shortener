@@ -14,9 +14,14 @@ class LinkController extends Controller
 
     public function store(StoreRequest $request)
     {
+        $slug = $request->get('slug');
+
+        if(Link::where('slug', $slug)->first()){
+            return $this->forbidden(null, 'Esse slug já está sendo utilizado');
+        }
 
         $link = Link::create([
-            'code' => $this->generateCode(8),
+            'slug' => $slug ?? $this->generateCode(random_int(6, 8)),
             'user_id' =>  auth()->user()->id,
             'url' => $request->url,
         ]);
