@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/open/{slug}', [OpenController::class, 'open']);
+Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
