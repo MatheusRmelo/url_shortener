@@ -24,13 +24,12 @@ class LoginTest extends TestCase
      * @dataProvider validLoginProviderData
      * @return void
      */
-    public function testLoginSuccess(string $email, string $password, string $device)
+    public function testLoginSuccess(string $email, string $password)
     {
         $this->seed(TestUserSeeder::class);
         $response = $this->post('/api/auth/login', [
             'email' => $email,
             'password' => $password,
-            'device' => $device
         ]);
         $response->assertStatus(200);
     }
@@ -41,13 +40,12 @@ class LoginTest extends TestCase
      * @dataProvider unauthorizedLoginProviderData
      * @return void
      */
-    public function testLoginUnauthorized(string $email, string $password, string $device)
+    public function testLoginUnauthorized(string $email, string $password)
     {
         $this->seed(TestUserSeeder::class);
         $response = $this->post('/api/auth/login', [
             'email' => $email,
             'password' => $password,
-            'device' => $device
         ]);
         $response->assertStatus(401);
     }
@@ -79,12 +77,10 @@ class LoginTest extends TestCase
             'complete-1' => [
                 'email' => 'teste1@gmail.com',
                 'password' => 'teste123456',
-                'device' => 'Android V10'
             ],
             'complete-2' => [
                 'email' => 'teste2@gmail.com',
                 'password' => 'teste123456',
-                'device' => 'Windows V10'
             ]
         ];
     }
@@ -100,12 +96,10 @@ class LoginTest extends TestCase
             'wrong-password' => [
                 'email' => 'teste1@gmail.com',
                 'password' => 'teste12345',
-                'device' => 'Android V10'
             ],
             'wrong-email' => [
                 'email' => 'weqweqw@gmail.com',
                 'password' => 'teste123456',
-                'device' => 'Windows V10'
             ]
         ];
     }
@@ -118,25 +112,16 @@ class LoginTest extends TestCase
     public function incompleteLoginProviderData()
     {
         return [
-            'incomplete-without-device' => [
-                [
-                    'email' => 'teste1@gmail.com',
-                    'password' => 'teste123456',
-                    'device' => ''
-                ]
-            ],
             'incomplete-without-password' => [
                 [
                     'email' => 'teste2@gmail.com',
                     'password' => '',
-                    'device' => 'Windows V10'
                 ]
             ],
             'incomplete-without-email' => [
                 [
                     'email' => '',
                     'password' => 'teste12345',
-                    'device' => 'Windows V10'
                 ]
             ],
             'empty' => [[]]

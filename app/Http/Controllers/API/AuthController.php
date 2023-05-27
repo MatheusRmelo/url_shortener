@@ -21,7 +21,7 @@ class AuthController extends Controller
             return $this->unauthorized(null, 'E-mail e/ou senha inválidos');
         }
 
-        return $this->success($user->createToken($request->device)->plainTextToken, 'Sucesso ao realizar login');
+        return $this->success($user->createToken($request->userAgent() ?? "no device")->plainTextToken, 'Sucesso ao realizar login');
     }
 
     public function register(RegisterRequest $request)
@@ -37,7 +37,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        return $this->create($user->createToken('first-use')->plainTextToken, 'Sucesso ao criar o usuário');
+        return $this->create($user->createToken($request->userAgent() ?? "no device")->plainTextToken, 'Sucesso ao criar o usuário');
     }
 
     public function validadeUser(Request $request)
