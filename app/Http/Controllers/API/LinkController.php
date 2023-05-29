@@ -54,9 +54,16 @@ class LinkController extends Controller
         $title = $request->get('title');
         $data = [];
 
+        $link = Link::find($request->link);
+        if(!$link || $link->user_id != auth()->user()->id){
+            return $this->notFound(null, 'Não foi possível encontrar esse link');
+        }
+
         if($slug){
-            if(Link::where('slug', $slug)->first()){
-                return $this->forbidden(null, 'Esse slug já está sendo utilizado');
+            if(Link::where('slug', $slug)->where('id', '!=', $link->id)->first()){
+                throw ValidationException::withMessages([
+                    'slug' => 'Esse slug já está sendo utilizado',
+                ]);
             }
             $data['slug'] = $slug;
         }
@@ -67,10 +74,7 @@ class LinkController extends Controller
             $data['title'] = $title;
         }
 
-        $link = Link::find($request->link);
-        if(!$link || $link->user_id != auth()->user()->id){
-            return $this->notFound(null, 'Não foi possível encontrar esse link');
-        }
+
 
         $link->update($data);
 

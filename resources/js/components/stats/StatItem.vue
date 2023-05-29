@@ -18,8 +18,8 @@ export default defineComponent({
             required: true,
         },
         value : {
-            type: Number,
-            default: 0
+            type: String,
+            required: true,
         },
         label: {
             type: String,
@@ -32,24 +32,26 @@ export default defineComponent({
     .stat-item {
         display: flex;
 
-        width: 80px;
+        width: 20%;
+        min-width: 200px;
     }
     .stat-item > i {
         margin-right: 16px;
-        font-size: 20px;
-        color: var(--color-text-normal);
+        font-size: 32px;
+        color: var(--color-text-sub);
+        margin-top: 8px;
     }
     .stat-item > .content {
         display: flex;
         flex-direction: column;
     }
     .stat-item > .content > .value {
-        font-size: 16px;
+        font-size: 32px;
         font-weight: bold;
         color: var(--color-text-normal);
     }
     .stat-item > .content > .label {
-        font-size: 12px;
+        font-size: 24px;
         font-weight: normal;
         color: var(--color-text-sub);
     }

@@ -1,6 +1,6 @@
 <template>
-    <Modal :show="show" @close="$emit('close')" title="Criar um novo link">
-        <form action="">
+    <Modal :show="show" @close="clear();$emit('close')" :title="`${link ? 'Editar' : 'Criar um novo'} link`">
+        <div class="form">
             <Input
                 label="Título"
                 placeholder="Digite o título do link"
@@ -19,14 +19,14 @@
                 v-model:value="url"
                 :error="errors && errors['url'] ? errors['url'][0] : ''"
             />
-            <Button @click="handleClickCreate" :loading="loading" :disabled="!url || !title">
-                Criar novo link
+            <Button @click="handleClickSave" :loading="loading" :disabled="!url || !title">
+                {{ `${link ? 'Editar' : 'Criar novo'} link`}}
             </Button>
-        </form>
+        </div>
     </Modal>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { PropType, defineComponent } from 'vue';
 import IconButton from './buttons/IconButton.vue';
 import Overlay from './Overlay.vue';
 import Modal from './Modal.vue';
@@ -39,6 +39,18 @@ import Link from '../types/link';
 export default defineComponent({
     name: "ModalFormLink",
     emits: ["close", "save"],
+    watch: {
+        show(){
+            this.errors = null;
+            if(this.link){
+                this.title = this.link.title;
+                this.slug = this.link.slug;
+                this.url = this.link.url;
+            }else{
+                this.clear();
+            }
+        }
+    },
     data(){
         return {
             loading: false,
@@ -49,18 +61,30 @@ export default defineComponent({
         }
     },
     methods: {
-        async handleClickCreate(){
+        clear(){
+            this.title = "";
+            this.slug = "";
+            this.url = "";
+        },
+        async handleClickSave(){
             this.loading = true;
             this.errors = null;
-            var response = await apiClient.post<Link>("/links", {
-                title: this.title,
-                slug: this.slug,
-                url: this.url,
-            });
+            var response: any;
+            if(this.link){
+                response = await apiClient.put<Link>(`/links/${this.link.id}`, {
+                    title: this.title,
+                    slug: this.slug,
+                    url: this.url,
+                });
+            }else{
+                response = await apiClient.post<Link>("/links", {
+                    title: this.title,
+                    slug: this.slug,
+                    url: this.url,
+                });
+            }
             if(response.ok){
-                this.title = "";
-                this.slug = "";
-                this.url = "";
+                this.clear();
                 this.$emit('save', response.result)
             }else if(response.status == 422){
                 this.errors = response.errors;
@@ -71,22 +95,26 @@ export default defineComponent({
                 });
             }
             this.loading = false;
-        }
+        },
     },
     props: {
         show: {
             type: Boolean,
             required: true,
         },
+        link: {
+            type: Object as PropType<Link | null>,
+            default: null,
+        }
     },
     components: { IconButton, Overlay, Modal, Input, Button }
 });
 </script>
 <style scoped>
-    form > fieldset {
+    .form > fieldset {
         margin-top: 16px;
     }
-    form > button {
+    .form > button {
         width: 100%;
         margin-top: 24px;
     }

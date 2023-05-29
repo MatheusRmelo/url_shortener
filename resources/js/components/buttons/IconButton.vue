@@ -33,6 +33,7 @@ export default defineComponent({
 
         cursor: pointer;
         background: transparent;
+        color: var(--color-icon-normal);
     }
     button:hover {
         background-color: var(--color-secondary);

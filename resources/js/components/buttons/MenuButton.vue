@@ -50,6 +50,7 @@ export default defineComponent({
         cursor: pointer;
         background: transparent;
         transition: all 1s ease-in-out;
+        color: var(--color-icon-normal);
     }
     button:hover {
         background-color: var(--color-dominant-hover);

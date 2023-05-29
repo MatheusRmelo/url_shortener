@@ -42,7 +42,7 @@ export default defineComponent({
         max-height: 95vh;
         overflow: auto;
         max-width: 1000px;
-        padding: 16px;
+        padding: 24px;
 
         display: flex;
         flex-direction: column;

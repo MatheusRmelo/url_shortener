@@ -1,15 +1,19 @@
 <template>
     <ModalFormLink
         :show="showFormLink"
+        :link="activeLink"
         @close="showFormLink = false"
         @save="handleSaveLink"
     />
     <main>
-        <Header @add="showFormLink=!showFormLink"/>
+        <Header @add="showFormLink=true;activeLink=null" />
         <section>
             <SectionHeader>
                 <template #upper>
-                    <StatsBar />
+                    <StatsBar
+                        :links="links.length"
+                        :views="links.reduce((acc, obj)=>acc + obj.hits, 0)"
+                    />
                 </template>
                 <template #menu>
                     <div class="menu">
@@ -36,7 +40,7 @@
             </SectionHeader>
             <div class="links">
                 <Loading v-if="loading" />
-                <LinkCard v-else v-for="link in links" :link="link" />
+                <LinkCard v-else v-for="link in links" :link="link" @edit="activeLink = link;showFormLink=true;" />
             </div>
         </section>
     </main>
@@ -65,6 +69,7 @@ export default defineComponent({
             links: [] as Link[],
             loading: false,
             showFormLink: false,
+            activeLink: null as Link | null,
         }
     },
     mounted(){
@@ -73,7 +78,15 @@ export default defineComponent({
     methods: {
         handleSaveLink(link: Link){
             this.showFormLink = false;
-            this.links.push(link);
+            if(this.activeLink){
+                let index: number = this.links.findIndex((element)=>element.id == this.activeLink.id);
+                if(index > -1){
+                    this.links[index] = link;
+                }
+                this.activeLink = null;
+            }else{
+                this.links.push(link);
+            }
         },
         async getLinks(){
             this.loading = true;

@@ -5,12 +5,22 @@
             <StatItem
                 icon="isax-link"
                 label="Links"
-                :value="links"
+                :value="links.toString()"
             />
             <StatItem
                 icon="isax-eye"
                 label="Views"
-                :value="views"
+                :value="views.toString()"
+            />
+            <StatItem
+                icon="isax-mouse-circle"
+                label="Cliques"
+                :value="clicks.toString()"
+            />
+            <StatItem
+                icon="isax-percentage-circle"
+                label="Avg.CTR"
+                :value="`${(clicks * 100) / views}%`"
             />
         </div>
     </div>
@@ -27,6 +37,10 @@ export default defineComponent({
             default: 0
         },
         views: {
+            type: Number,
+            default: 0,
+        },
+        clicks: {
             type: Number,
             default: 0,
         }
