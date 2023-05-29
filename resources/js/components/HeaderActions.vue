@@ -4,7 +4,7 @@
         <div class="search-area">
             <Input placeholder="Pesquise ou cole a URL" :centered="true" :bold="true"/>
         </div>
-        <IconButton icon="isax-add" :in-secondary="true"/>
+        <IconButton icon="isax-add" :in-secondary="true" @click="$emit('add')"/>
     </div>
 </template>
 <script lang="ts">
@@ -14,6 +14,7 @@ import Input from './Input.vue';
 
 export default defineComponent({
     name: "HeaderActions",
+    emits: ['add'],
     components: { IconButton, Input }
 });
 </script>

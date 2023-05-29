@@ -1,6 +1,11 @@
 <template>
+    <ModalFormLink
+        :show="showFormLink"
+        @close="showFormLink = false"
+        @save="handleSaveLink"
+    />
     <main>
-        <Header />
+        <Header @add="showFormLink=!showFormLink"/>
         <section>
             <SectionHeader>
                 <template #upper>
@@ -31,7 +36,7 @@
             </SectionHeader>
             <div class="links">
                 <Loading v-if="loading" />
-                <LinkCard v-else v-for="link in links" />
+                <LinkCard v-else v-for="link in links" :link="link" />
             </div>
         </section>
     </main>
@@ -47,6 +52,10 @@ import apiClient from '../api/apiClient';
 import { toast } from 'vue3-toastify';
 import Loading from '../components/Loading.vue';
 import LinkCard from '../components/LinkCard.vue';
+import Modal from '../components/Modal.vue';
+import ModalFormLink from '../components/ModalFormLink.vue';
+import Input from '../components/Input.vue';
+import Button from '../components/buttons/Button.vue';
 
 export default defineComponent({
     name: "Home",
@@ -55,12 +64,17 @@ export default defineComponent({
             activeMenu: 0,
             links: [] as Link[],
             loading: false,
+            showFormLink: false,
         }
     },
     mounted(){
         this.getLinks();
     },
     methods: {
+        handleSaveLink(link: Link){
+            this.showFormLink = false;
+            this.links.push(link);
+        },
         async getLinks(){
             this.loading = true;
             var response = await apiClient.get<Link[]>("/links");
@@ -75,7 +89,7 @@ export default defineComponent({
             this.loading = false;
         }
     },
-    components: { Header, SectionHeader, StatsBar, MenuButton, Loading, LinkCard }
+    components: { Header, SectionHeader, StatsBar, MenuButton, Loading, LinkCard, Modal, ModalFormLink, Input, Button }
 });
 </script>
 <style scoped>
@@ -96,6 +110,7 @@ export default defineComponent({
 
     section .links {
         display: flex;
+        flex-direction: column;
         width: 100%;
         min-height: 400px;
     }

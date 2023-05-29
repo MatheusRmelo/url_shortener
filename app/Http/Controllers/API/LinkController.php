@@ -7,6 +7,7 @@ use App\Http\Requests\Link\StoreRequest;
 use App\Models\Link;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LinkController extends Controller
 {
@@ -31,10 +32,13 @@ class LinkController extends Controller
         $slug = $request->get('slug');
 
         if($slug && Link::where('slug', $slug)->first()){
-            return $this->forbidden(null, 'Esse slug já está sendo utilizado');
+            throw ValidationException::withMessages([
+                'slug' => 'Esse slug já está sendo utilizado',
+            ]);
         }
 
         $link = Link::create([
+            'title' => $request->title,
             'slug' => $slug ?? $this->generateCode(random_int(6, 8)),
             'user_id' =>  auth()->user()->id,
             'url' => $request->url,
@@ -47,6 +51,7 @@ class LinkController extends Controller
     {
         $slug = $request->get('slug');
         $url = $request->get('url');
+        $title = $request->get('title');
         $data = [];
 
         if($slug){
@@ -57,6 +62,9 @@ class LinkController extends Controller
         }
         if($url){
             $data['url'] = $url;
+        }
+        if($title){
+            $data['title'] = $title;
         }
 
         $link = Link::find($request->link);

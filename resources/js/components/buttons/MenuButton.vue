@@ -1,7 +1,7 @@
 <template>
     <button @click="$emit('click')" :class="`${inSecondary && 'in-secondary'} ${active && 'active'}`">
         <i class="isax" :class="icon"></i>
-        <small class="label">{{ label }}</small>
+        <small class="label" v-if="active">{{ label }}</small>
     </button>
 </template>
 <script lang="ts">
@@ -69,9 +69,6 @@ export default defineComponent({
         font-size: 16px;
         font-weight: normal;
         margin-left: 8px;
-        opacity: 0;
     }
-    button.active .label {
-        opacity: 1;
-    }
+
 </style>

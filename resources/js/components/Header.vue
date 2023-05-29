@@ -1,7 +1,7 @@
 <template>
     <header>
         <Logo />
-        <HeaderActions />
+        <HeaderActions @add="$emit('add')"/>
         <ProfileArea />
     </header>
 </template>
@@ -11,6 +11,7 @@ import Logo from './Logo.vue';
 import HeaderActions from './HeaderActions.vue';
 import ProfileArea from './ProfileArea.vue';
 export default defineComponent({
+    emits: ['add'],
     name: "Header",
     components: { Logo, HeaderActions, ProfileArea }
 });

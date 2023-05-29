@@ -2,18 +2,26 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Login from '../pages/Login.vue';
 import Home from '../pages/Home.vue';
+import Register from '../pages/Register.vue';
+
 import apiClient from '../api/apiClient';
 import User from '../types/user';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
         path: '/auth',
         children: [
             {
+                name: 'login',
                 path: 'login',
                 component: Login
+            },
+            {
+                name: 'register',
+                path: 'register',
+                component: Register
             }
         ]
     },
@@ -33,7 +41,6 @@ router.beforeEach(async (to, from) => {
     var response = await apiClient.get<User|null>('/user');
     if(!response.ok){
         authenticated = false;
-        return false;
     }
     if (!to.path.startsWith("/auth") && !authenticated) {
         await router.push("/auth/login");

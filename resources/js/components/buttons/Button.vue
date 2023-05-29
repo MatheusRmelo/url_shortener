@@ -1,5 +1,5 @@
 <template>
-    <button @click="$emit('click')" :disabled="loading || disabled">
+    <button @click="$emit('click')" :disabled="loading || disabled" :class="variant">
         <div v-if="loading">
             <i class="fa fa-spinner fa-spin" style="margin-left: 8px;"></i>
             Carregando...
@@ -21,6 +21,10 @@ export default defineComponent({
         disabled: {
             type: Boolean,
             default: false,
+        },
+        variant: {
+            type: String,
+            default: 'solid'
         }
     }
 })
@@ -39,11 +43,18 @@ export default defineComponent({
         color: var(--color-text-light);
         font-size: 16px;
         font-weight: bold;
-        transition: all 1s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+    button.text{
+        background-color: transparent;
+        color: var(--color-highlight);
     }
 
     button:hover{
         opacity: 0.8;
+    }
+    button.text:hover {
+        background-color: var(--color-highlight-hover);
     }
     button:disabled {
         background-color: var(--color-disabled);

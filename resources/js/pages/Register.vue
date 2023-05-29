@@ -1,8 +1,14 @@
 <template>
     <AuthArea
-        title="Faça seu login"
-        description="Entre agora e faça a gestão dos seus links"
+        title="Crie sua conta"
+        description="Crie a sua nova conta agora e comece a gerar links"
     >
+        <Input
+            label="Nome"
+            placeholder="Digite o seu nome"
+            v-model:value="name"
+            :error="errors && errors['name'] ? errors['name'][0] : ''"
+        />
         <Input
             label="E-mail"
             placeholder="Digite o seu e-mail"
@@ -23,11 +29,11 @@
                 />
             </template>
         </Input>
-        <Button @click="handleClickLogin" :loading="loading" :disabled="!email || !password" >
-            Entrar
+        <Button @click="handleClickRegister" :loading="loading" :disabled="!name || !email || !password" >
+            Criar nova conta
         </Button>
-        <Button @click="this.$router.push({name: 'register'})" variant="text">
-            Ainda não tem conta? Crie uma agora!
+        <Button @click="this.$router.push({name: 'login'})" variant="text">
+            Já tem conta? Faça login
         </Button>
     </AuthArea>
 </template>
@@ -41,7 +47,7 @@ import { toast } from 'vue3-toastify';
 import AuthArea from '../components/layout/AuthArea.vue';
 
 export default defineComponent({
-    name: "Login",
+    name: "Register",
     computed: {
         getError(code: string){
             if(!this.errors) return "";
@@ -53,6 +59,7 @@ export default defineComponent({
     },
     data(){
         return {
+            name: '',
             email: '',
             password: '',
             errors: null,
@@ -61,11 +68,12 @@ export default defineComponent({
         }
     },
     methods: {
-        async handleClickLogin(){
+        async handleClickRegister(){
             this.loading = true;
             this.errors = null;
 
-            var response = await apiClient.post<string>("/auth/login", {
+            var response = await apiClient.post<string>("/auth/register", {
+                name: this.name,
                 email: this.email,
                 password: this.password,
             });
@@ -87,7 +95,7 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-    button.solid {
-        margin-top: 24px;
-    }
+button.solid {
+    margin-top: 24px;
+}
 </style>
