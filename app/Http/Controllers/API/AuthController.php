@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,10 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password, $user->password)){
-            return $this->unauthorized(null, 'E-mail e/ou senha inválidos');
+            throw ValidationException::withMessages([
+                'email' => 'E-mail e/ou senha inválidos',
+                'password' => 'E-mail e/ou senha inválidos'
+            ]);
         }
 
         return $this->success($user->createToken($request->userAgent() ?? "no device")->plainTextToken, 'Sucesso ao realizar login');
@@ -28,7 +32,9 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         if($user){
-            return $this->forbidden(null, 'Esse e-mail não está disponível');
+            throw ValidationException::withMessages([
+                'email' => 'Esse e-mail não está disponível',
+            ]);
         }
 
         $user = User::create([
@@ -38,11 +44,5 @@ class AuthController extends Controller
         ]);
 
         return $this->create($user->createToken($request->userAgent() ?? "no device")->plainTextToken, 'Sucesso ao criar o usuário');
-    }
-
-    public function validadeUser(Request $request)
-    {
-        $token = $request->session()->get('token');
-        return $token;
     }
 }

@@ -1,8 +1,9 @@
 <template>
-    <fieldset>
-        <label>{{ label }}</label>
+    <fieldset :class="error ? 'invalid' : ''">
+        <label v-if="label">{{ label }}</label>
         <div class="input-area" :class="isFocused ? 'focus' : ''">
             <input
+                :class="`${centered && 'centered'} ${bold && 'bold'}`"
                 :placeholder="placeholder"
                 :value="value"
                 :type="type"
@@ -13,7 +14,7 @@
 
             </slot>
         </div>
-
+        <span class="error-text" v-if="error">{{ error }}</span>
     </fieldset>
 </template>
 <script lang="ts">
@@ -30,7 +31,7 @@ export default defineComponent({
     props: {
         label: {
             type: String,
-            required: true
+            default: ""
         },
         placeholder: {
             type: String,
@@ -44,6 +45,18 @@ export default defineComponent({
             type: String,
             default: ""
         },
+        error: {
+            type: String,
+            default: ""
+        },
+        centered: {
+            type: Boolean,
+            default: false,
+        },
+        bold: {
+            type: Boolean,
+            default: false,
+        }
     }
 });
 </script>
@@ -54,8 +67,6 @@ export default defineComponent({
 
         outline: none;
         border: none;
-
-        margin-top: 16px;
     }
     fieldset > label {
         font-size: 16px;
@@ -87,5 +98,25 @@ export default defineComponent({
 
         margin-left: 8px;
     }
+    fieldset > .input-area > input.centered {
+        text-align: center;
+    }
+    fieldset > .input-area > input.bold {
+        font-weight: bold;
+    }
 
+    /* ERRORS */
+    .error-text{
+        font-size: 12px;
+        font-weight: 400;
+
+        text-align: right;
+        color: var(--color-input-invalid);
+    }
+    fieldset.invalid label {
+        color: var(--color-input-invalid);
+    }
+    fieldset.invalid > .input-area{
+        border: 1px solid var(--color-input-invalid-border);
+    }
 </style>

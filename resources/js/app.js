@@ -6,5 +6,4 @@ import 'vue3-toastify/dist/index.css';
 const app = createApp({});
 
 app.use(router);
-
 app.mount("#app")

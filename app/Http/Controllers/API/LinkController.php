@@ -14,7 +14,7 @@ class LinkController extends Controller
 
     public function index(Request $request)
     {
-        return response()->json(Link::where('user_id', auth()->user()->id)->paginate());
+        return $this->success(auth()->user()->links);
     }
 
     public function show(Request $request)

@@ -8,13 +8,34 @@ const client = axios.create({
     }
 })
 export default {
-    get(path = ""){
+    async get<T>(path = "") : Promise<Response<T>>{
         let token = localStorage.getItem('token');
-        return client.get(path, {
-            headers: {
-                Authorization: `Bearer ${token}`
+        try {
+            var response = await client.get(path, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return {
+                ...response.data,
+                status: response.status
+            };
+        }catch(e){
+            if(e instanceof AxiosError && e.response){
+                return {
+                    ...e.response.data,
+                    status: e.response.status,
+                    errors: e.response.status == 422 ? e.response.data.errors : null,
+                    ok: false,
+                };
             }
-        });
+            return {
+                message: "Falha ao se comunicar com o servidor",
+                ok: false,
+                result: null,
+                status: 500,
+            }
+        }
     },
     async post<T>(path = "", body = {}) : Promise<Response<T>>{
         let token = localStorage.getItem('token');
@@ -24,22 +45,33 @@ export default {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data;
+            return {
+                ...response.data,
+                status: response.status
+            };
         }catch(e){
             if(e instanceof AxiosError && e.response){
-                return e.response.data;
+                return {
+                    ...e.response.data,
+                    status: e.response.status,
+                    errors: e.response.status == 422 ? e.response.data.errors : null,
+                    ok: false,
+                };
             }
             return {
                 message: "Falha ao se comunicar com o servidor",
                 ok: false,
                 result: null,
+                status: 500,
             }
         }
     },
 }
 
 interface Response<T> {
-    result: T | null,
+    result?: T | null,
     ok: boolean,
     message: string,
+    status: number,
+    errors?: object
 }

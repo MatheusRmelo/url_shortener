@@ -16,11 +16,13 @@
   --color-highlight: #55afdb;
   --color-disabled: rgba(201, 199, 199, 0.103);
   --color-input-background: #EFF3F6;
-
-  --color-highlight-hover: #A1D4EE32;
+  --color-input-invalid: #F92B19;
+  --color-input-invalid-border: #F92B19;
+  --color-dominant-hover: #A1D4EE32;
 
   --color-text-normal: #353F4F;
   --color-text-light: #FFFFFF;
+  --color-text-sub: #AFB8C4;
   --color-text-ultralight: rgba(207, 207, 207, 0.69);
   --color-text-button: #FFFFFF;
   --color-text-disabled: #a09d9d;

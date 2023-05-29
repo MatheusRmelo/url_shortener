@@ -1,6 +1,6 @@
 <template>
-    <button @click="$emit('click')" :style="{width: `${size}px`, height: `${size}px`}">
-        <i class="fa" :class="icon" :style="{fontSize: `${size-16}px`}"></i>
+    <button @click="$emit('click')" :style="{width: `${size}px`, height: `${size}px`}" :class="`${inSecondary && 'in-secondary'}`">
+        <i class="isax" :class="icon" :style="{fontSize: `${size-16}px`}"></i>
     </button>
 </template>
 <script lang="ts">
@@ -17,6 +17,10 @@ export default defineComponent({
         size: {
             type: Number,
             default: 32,
+        },
+        inSecondary: {
+            type: Boolean,
+            default: false,
         }
     }
 })
@@ -32,5 +36,8 @@ export default defineComponent({
     }
     button:hover {
         background-color: var(--color-secondary);
+    }
+    button.in-secondary:hover{
+        background-color: var(--color-dominant);
     }
 </style>
