@@ -7,7 +7,9 @@
                 <slot name="menu"></slot>
             </div>
             <div class="filters">
-                FILTER
+                <IconButton
+                    icon=""
+                />
             </div>
         </div>
     </div>
@@ -15,9 +17,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Divider from './Divider.vue';
+import IconButton from './buttons/IconButton.vue';
 export default defineComponent({
     name: "SectionHeader",
-    components: { Divider }
+    components: { Divider, IconButton }
 });
 </script>
 <style scoped>
