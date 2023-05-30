@@ -1,6 +1,6 @@
 <template>
     <Overlay :show="show" @close="$emit('close')">
-        <div class="modal" v-on:click.stop>
+        <div class="modal" v-on:click.stop :class="size">
             <div class="modal-header">
                 <h3 class="title">
                     {{ title }}
@@ -25,6 +25,10 @@ export default defineComponent({
         title: {
             type: String,
             default: ""
+        },
+        size: {
+            type: String,
+            default: "lg"
         }
     },
     name: "Modal",
@@ -36,7 +40,7 @@ export default defineComponent({
         background:  white;
         border-radius: 12px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        width: 20%;
+        width: 40%;
         height: auto;
         min-height: 600px;
         max-height: 95vh;
@@ -46,6 +50,10 @@ export default defineComponent({
 
         display: flex;
         flex-direction: column;
+    }
+    .modal.xs {
+        width: 30%;
+        min-height: initial;
     }
 
     .modal .modal-header {
@@ -66,5 +74,22 @@ export default defineComponent({
     }
     .modal .close-button:hover{
         color: var(--color-text-sub);
+    }
+
+    @media screen and (max-width: 1080px) {
+        .modal {
+            width: 60%;
+        }
+        .modal.xs {
+            width: 60%;
+        }
+    }
+    @media screen and (max-width: 767px) {
+        .modal {
+            width: 80%;
+        }
+        .modal.xs {
+            width: 80%;
+        }
     }
 </style>

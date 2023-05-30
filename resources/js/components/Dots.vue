@@ -25,4 +25,11 @@ export default defineComponent({
         border-radius: 50%;
         background-color: var(--color-text-sub);
     }
+
+    @media screen and (max-width: 767px) {
+        .dots > .dot {
+            width: 2px;
+            height: 2px;
+        }
+    }
 </style>

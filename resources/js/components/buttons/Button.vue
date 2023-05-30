@@ -1,5 +1,5 @@
 <template>
-    <button @click="$emit('click')" :disabled="loading || disabled" :class="variant">
+    <button @click="$emit('click')" :disabled="loading || disabled" :class="`${variant} ${isDeleteMode && 'delete'}`">
         <div v-if="loading">
             <i class="fa fa-spinner fa-spin" style="margin-left: 8px;"></i>
             Carregando...
@@ -25,6 +25,10 @@ export default defineComponent({
         variant: {
             type: String,
             default: 'solid'
+        },
+        isDeleteMode: {
+            type: Boolean,
+            default: false
         }
     }
 })
@@ -33,24 +37,33 @@ export default defineComponent({
     button {
         width: auto;
         height: 48px;
+        min-height: 48px;
 
         outline: none;
         border: none;
         border-radius: 8px;
         background-color: var(--color-highlight);
         cursor: pointer;
+        padding: 8px;
 
         color: var(--color-text-light);
         font-size: 16px;
         font-weight: bold;
         transition: all 0.5s ease-in-out;
     }
+    button.delete {
+        background-color: var(--color-danger);
+        color: var(--color-text-light);
+    }
     button.text{
         background-color: transparent;
         color: var(--color-highlight);
     }
+    button.text.delete {
+        color: var(--color-text-normal);
+    }
 
-    button:hover{
+    button:hover, button.delete:hover{
         opacity: 0.8;
     }
     button.text:hover {
@@ -61,5 +74,11 @@ export default defineComponent({
         color: var(--color-text-disabled);
         cursor: not-allowed;
         opacity: 1;
+    }
+    button.text:focus{
+        border: 1px solid var(--color-highlight);
+    }
+    button:focus{
+        border: 1px solid var(--color-text-normal);
     }
 </style>

@@ -95,6 +95,35 @@ export default {
             }
         }
     },
+    async delete<T>(path = "") : Promise<Response<T>>{
+        let token = localStorage.getItem('token');
+        try {
+            var response = await client.delete(path, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return {
+                ...response.data,
+                status: response.status
+            };
+        }catch(e){
+            if(e instanceof AxiosError && e.response){
+                return {
+                    ...e.response.data,
+                    status: e.response.status,
+                    errors: e.response.status == 422 ? e.response.data.errors : null,
+                    ok: false,
+                };
+            }
+            return {
+                message: "Falha ao se comunicar com o servidor",
+                ok: false,
+                result: null,
+                status: 500,
+            }
+        }
+    },
 }
 
 interface Response<T> {

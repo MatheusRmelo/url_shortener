@@ -13,7 +13,7 @@
             <div class="buttons">
                 <IconButton icon="isax-copy" :in-secondary="true" @click="copyLinkToKeyboard"/>
                 <IconButton icon="isax-edit" :in-secondary="true" @click="$emit('edit')"/>
-                <IconButton icon="isax-trash" :in-secondary="true" />
+                <IconButton icon="isax-trash" :in-secondary="true" @click="$emit('delete')" />
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@ import { toast } from 'vue3-toastify';
 
 export default defineComponent({
     name: "LinkCard",
-    emits: ['edit'],
+    emits: ['edit', 'delete'],
     computed: {
         baseRedirect(){
             return baseRedirectLink;
@@ -98,5 +98,25 @@ export default defineComponent({
     }
     .link-card .actions .views > i {
         font-size: 16px;
+    }
+
+    @media screen and (max-width: 767px) {
+        .link-card {
+            padding: 16px;
+        }
+        .link-card .content {
+            flex: 1;
+        }
+        .link-card .content > .title {
+            font-size: 12px;
+        }
+        .link-card .content > .link {
+            font-size: 12px;
+        }
+        .link-card .actions {
+            align-items: flex-end;
+            flex-direction: column;
+            gap: 16px;
+        }
     }
 </style>

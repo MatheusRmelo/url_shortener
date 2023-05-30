@@ -35,4 +35,9 @@ export default defineComponent({
         border-radius: 50%;
         margin-right: 4px;
     }
+    @media screen and (max-width: 767px) {
+        .profile-area {
+            justify-content: flex-end;
+        }
+    }
 </style>

@@ -31,4 +31,15 @@ export default defineComponent({
     .header-actions .search-area {
         flex: 1;
     }
+
+    @media screen and (max-width: 767px) {
+        .header-actions {
+            width: 100%;
+            justify-content: flex-end;
+            gap: 0px;
+        }
+        .header-actions .search-area {
+            display: none;
+        }
+    }
 </style>

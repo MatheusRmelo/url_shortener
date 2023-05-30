@@ -38,6 +38,9 @@ export default defineComponent({
     button:hover {
         background-color: var(--color-secondary);
     }
+    button:focus {
+        border: 1px solid var(--color-highlight);
+    }
     button.in-secondary:hover{
         background-color: var(--color-dominant);
     }

@@ -28,4 +28,10 @@ export default defineComponent({
         background-color: var(--color-secondary);
         border-radius: 8px;
     }
+
+    @media screen and (max-width: 767px) {
+        header {
+            justify-content: flex-start;
+        }
+    }
 </style>

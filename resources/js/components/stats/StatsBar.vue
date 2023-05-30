@@ -20,7 +20,7 @@
             <StatItem
                 icon="isax-percentage-circle"
                 label="Avg.CTR"
-                :value="`${(clicks * 100) / views}%`"
+                :value="`${averageCTR}%`"
             />
         </div>
     </div>
@@ -31,6 +31,12 @@ import StatItem from './StatItem.vue';
 
 export default defineComponent({
     name: "StatsBar",
+    computed: {
+        averageCTR(): number{
+            if(this.views == 0) return 0;
+            return (this.clicks * 100) / this.views;
+        }
+    },
     props: {
         links: {
             type: Number,
@@ -66,5 +72,12 @@ export default defineComponent({
         display: flex;
 
         margin-top: 16px;
+    }
+
+    @media screen and (max-width: 767px) {
+        .stats-bar > .items {
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
     }
 </style>

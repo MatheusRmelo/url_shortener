@@ -31,9 +31,7 @@ export default defineComponent({
 <style scoped>
     .stat-item {
         display: flex;
-
-        width: 20%;
-        min-width: 200px;
+        width: 200px;
     }
     .stat-item > i {
         margin-right: 16px;
@@ -54,5 +52,17 @@ export default defineComponent({
         font-size: 24px;
         font-weight: normal;
         color: var(--color-text-sub);
+    }
+
+    @media screen and (max-width: 767px) {
+        .stat-item {
+            width: 40%;
+        }
+        .stat-item > .content > .value {
+            font-size: 24px;
+        }
+        .stat-item > .content > .label {
+            font-size: 16px;
+        }
     }
 </style>

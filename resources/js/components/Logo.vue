@@ -14,4 +14,10 @@ export default defineComponent({
         color: var(--color-highlight);
         font-weight: bold;
     }
+    @media screen and (max-width: 767px) {
+        .logo {
+            width: 64px;
+            font-size: 12px;
+        }
+    }
 </style>
