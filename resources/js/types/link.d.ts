@@ -3,5 +3,7 @@ export default interface Link {
     title: string,
     slug: string,
     url: string,
-    hits: number
+    hits: number,
+
+    hidden?: boolean
 }

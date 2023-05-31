@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Link;
 use App\Models\LinkRegister;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class OpenController extends Controller
 {
+    use ApiResponse;
+
     public function open(Request $request)
     {
         $link = Link::where('slug', $request->slug)->first();
         if(!$link){
-            return view('notfound', ['slug' => $request->slug]);
+            return $this->notFound(null, 'Slug não encontrado');
         }
 
         $register = LinkRegister::create([
@@ -24,6 +28,6 @@ class OpenController extends Controller
             'hits' => $link->hits + 1
         ]);
 
-        return redirect($link->url);
+        return $this->success($link->url, 'Sucesso ao encontrar link');
     }
 }

@@ -8,16 +8,26 @@
     <ModalConfirmDelete
         :show="showConfirmDelete"
         title="Excluir meu link"
-        :message="`Excluir o link '${activeLink?.title}'' é uma ação irreversível, após essa ação os dados são perdidos`"
+        :message="`Excluir o link (${activeLink?.title}) é uma ação irreversível, após essa ação os dados seram perdidos`"
         :action-btn-text="`Excluir o link`"
         :loading="loadingDelete"
         @close="showConfirmDelete = false"
         @delete="handleClickDeleteLink"
     />
+    <ModalSort
+        :show="showSort"
+        @close="showSort=false"
+        @order="handleClickSort"
+    >
+        <option value="title">Título</option>
+        <option value="slug">Slug</option>
+        <option value="url">URL</option>
+        <option value="hits">Visualizações</option>
+    </ModalSort>
     <main>
-        <Header @add="showFormLink=true;activeLink=null" />
+        <Header @add="showFormLink=true;activeLink=null" @search="handleSearch" />
         <section>
-            <SectionHeader>
+            <SectionHeader @order="showSort=true">
                 <template #upper>
                     <StatsBar
                         :links="links.length"
@@ -49,7 +59,7 @@
             </SectionHeader>
             <div class="links">
                 <Loading v-if="loading" />
-                <LinkCard v-else v-for="link in links" :link="link"
+                <LinkCard v-else v-for="link in availableLinks" :link="link"
                     @edit="activeLink = link;showFormLink=true;"
                     @delete="activeLink = link;showConfirmDelete = true;"
                 />
@@ -68,14 +78,21 @@ import apiClient from '../api/apiClient';
 import { toast } from 'vue3-toastify';
 import Loading from '../components/Loading.vue';
 import LinkCard from '../components/LinkCard.vue';
-import Modal from '../components/Modal.vue';
-import ModalFormLink from '../components/ModalFormLink.vue';
+import ModalFormLink from '../components/modals/ModalFormLink.vue';
 import Input from '../components/Input.vue';
 import Button from '../components/buttons/Button.vue';
-import ModalConfirmDelete from '../components/ModalConfirmDelete.vue';
+import ModalConfirmDelete from '../components/modals/ModalConfirmDelete.vue';
+import ModalSort from '../components/modals/ModalSort.vue';
+import Sort from '../types/sort';
+import { baseRedirectLink } from '../constants';
 
 export default defineComponent({
     name: "Home",
+    computed:{
+        availableLinks(){
+            return this.links.filter((element)=>!element.hidden);
+        }
+    },
     data(){
         return {
             activeMenu: 0,
@@ -83,6 +100,7 @@ export default defineComponent({
             loading: false,
             showFormLink: false,
             showConfirmDelete: false,
+            showSort: false,
             activeLink: null as Link | null,
             loadingDelete: false,
         }
@@ -91,6 +109,42 @@ export default defineComponent({
         this.getLinks();
     },
     methods: {
+        handleSearch(search: string){
+            search = search.toLowerCase();
+            this.links = (this.links as Link[]).map((element)=><Link>{
+                ...element,
+                hidden: !(
+                    element.title.toLowerCase().includes(search) ||
+                    element.url.toLowerCase().includes(search) ||
+                    `${baseRedirectLink}${element.slug}`.toLowerCase().includes(search)
+                )
+            });
+        },
+        handleClickSort(sort: Sort){
+            this.showSort = false;
+            (this.links as Link[])
+            .sort((a, b)=>{
+                let result = false;
+                switch (sort.column) {
+                    case 'title':
+                        result = sort.orderBy == 'asc' ? a.title > b.title : a.title < b.title;
+                        break;
+                    case 'slug':
+                        result = sort.orderBy == 'asc' ? a.slug > b.slug : a.slug < b.slug;
+                        break;
+                    case 'url':
+                        result = sort.orderBy == 'asc' ? a.url > b.url : a.url < b.url;
+                        break;
+                    case 'hits':
+                        result = sort.orderBy == 'asc' ? a.hits > b.hits : a.hits < b.hits;
+                        break;
+                    default:
+                        result = sort.orderBy == 'asc' ? a.title > b.title : a.title < b.title;
+                        break;
+                }
+                return result ? 1 : -1;
+            });
+        },
         handleSaveLink(link: Link){
             this.showFormLink = false;
             if(this.activeLink){
@@ -134,7 +188,7 @@ export default defineComponent({
             this.loading = false;
         }
     },
-    components: { Header, SectionHeader, StatsBar, MenuButton, Loading, LinkCard, Modal, ModalFormLink, Input, Button, ModalConfirmDelete }
+    components: { Header, SectionHeader, StatsBar, MenuButton, Loading, LinkCard, ModalFormLink, Input, Button, ModalConfirmDelete, ModalSort }
 });
 </script>
 <style scoped>

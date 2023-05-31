@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\OpenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/open/{slug}', [OpenController::class, 'open']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

@@ -27,14 +27,14 @@
 </template>
 <script lang="ts">
 import { PropType, defineComponent } from 'vue';
-import IconButton from './buttons/IconButton.vue';
-import Overlay from './Overlay.vue';
+import IconButton from '../buttons/IconButton.vue';
+import Overlay from '../Overlay.vue';
 import Modal from './Modal.vue';
-import Input from './Input.vue';
-import Button from './buttons/Button.vue';
-import apiClient from '../api/apiClient';
+import Input from '../Input.vue';
+import Button from '../buttons/Button.vue';
+import apiClient from '../../api/apiClient';
 import { toast } from 'vue3-toastify';
-import Link from '../types/link';
+import Link from '../../types/link';
 
 export default defineComponent({
     name: "ModalFormLink",

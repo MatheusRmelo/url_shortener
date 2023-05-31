@@ -1,6 +1,6 @@
 <template>
     <Overlay :show="show" @close="$emit('close')">
-        <div class="modal" v-on:click.stop :class="size">
+        <div class="modal" v-on:click.stop>
             <div class="modal-header">
                 <h3 class="title">
                     {{ title }}
@@ -13,7 +13,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Overlay from './Overlay.vue';
+import Overlay from '../Overlay.vue';
 
 export default defineComponent({
     emits: ["close"],
@@ -50,10 +50,6 @@ export default defineComponent({
 
         display: flex;
         flex-direction: column;
-    }
-    .modal.xs {
-        width: 30%;
-        min-height: initial;
     }
 
     .modal .modal-header {

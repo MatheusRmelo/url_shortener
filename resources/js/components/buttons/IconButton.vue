@@ -1,7 +1,7 @@
 <template>
-    <button @click="$emit('click')" :class="`${inSecondary && 'in-secondary'}`">
+    <button @click="$emit('click')" :class="`${inSecondary && 'in-secondary'} ${withText && 'with-text'}`">
         <i class="isax" :class="icon" :style="{fontSize: `${size-16}px`}"></i>
-        <small class="label" v-if="active">{{ label }}</small>
+        <small class="label" v-if="active || withText">{{ text }}</small>
     </button>
 </template>
 <script lang="ts">
@@ -31,7 +31,7 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-        label: {
+        text: {
             type: String,
             default: ""
         }
@@ -40,6 +40,10 @@ export default defineComponent({
 </script>
 <style scoped>
     button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         border: none;
         outline: none;
         width: 32px;
@@ -55,7 +59,7 @@ export default defineComponent({
         background-color: var(--color-secondary);
     }
     button:focus {
-        border: 1px solid var(--color-highlight);
+        background-color: var(--color-dominant-hover);
     }
     button.in-secondary:hover{
         background-color: var(--color-dominant);
@@ -71,8 +75,10 @@ export default defineComponent({
     }
     button.with-text {
         width: auto;
-        color: var(--color-text-normal);
-        background-color:var(--color-secondary);
+        color: var(--color-icon-normal);
+    }
+    button.with-text.active {
+        background-color: var(--color-dominant-hover);
     }
     button .label {
         font-size: 16px;

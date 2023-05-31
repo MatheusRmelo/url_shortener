@@ -44,7 +44,7 @@ export default defineComponent({
         border-radius: 8px;
         background-color: var(--color-highlight);
         cursor: pointer;
-        padding: 8px;
+        padding: 8px 16px;
 
         color: var(--color-text-light);
         font-size: 16px;

@@ -100,6 +100,11 @@ export default defineComponent({
         font-size: 16px;
     }
 
+    .link-card .actions .buttons {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
     @media screen and (max-width: 767px) {
         .link-card {
             padding: 16px;

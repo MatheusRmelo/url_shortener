@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/Login.vue';
 import Home from '../pages/Home.vue';
 import Register from '../pages/Register.vue';
+import Open from '../pages/Open.vue';
+import NotFound from '../pages/NotFound.vue';
 
 import apiClient from '../api/apiClient';
 import User from '../types/user';
@@ -28,6 +30,14 @@ const router = createRouter({
     {
         path: '/',
         component: Home
+    },
+    {
+        path: '/open/:slug',
+        component: Open
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound
     }
   ]
 });

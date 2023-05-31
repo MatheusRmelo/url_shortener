@@ -8,7 +8,13 @@
             </div>
             <div class="filters">
                 <IconButton
-                    icon=""
+                    icon="isax-arrow-3"
+                    @click="$emit('order')"
+                />
+                <IconButton
+                    icon="isax-filter-search"
+                    :with-text="true"
+                    text="Filtros"
                 />
             </div>
         </div>
@@ -20,6 +26,7 @@ import Divider from './Divider.vue';
 import IconButton from './buttons/IconButton.vue';
 export default defineComponent({
     name: "SectionHeader",
+    emits: ['order'],
     components: { Divider, IconButton }
 });
 </script>
@@ -35,5 +42,10 @@ export default defineComponent({
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+
+    .section-header > .actions > .filters {
+        display: flex;
+        align-items: center;
     }
 </style>

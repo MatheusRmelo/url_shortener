@@ -1,7 +1,7 @@
 <template>
     <header>
         <Logo />
-        <HeaderActions @add="$emit('add')"/>
+        <HeaderActions @add="$emit('add')" @search="(search: string) => $emit('search', search)"/>
         <ProfileArea />
     </header>
 </template>
@@ -11,7 +11,7 @@ import Logo from './Logo.vue';
 import HeaderActions from './HeaderActions.vue';
 import ProfileArea from './ProfileArea.vue';
 export default defineComponent({
-    emits: ['add'],
+    emits: ['add', 'search'],
     name: "Header",
     components: { Logo, HeaderActions, ProfileArea }
 });
