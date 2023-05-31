@@ -16,7 +16,7 @@ export default defineComponent({
     name: "ProfileArea",
     data(){
         return {
-            showDropdown: true,
+            showDropdown: false,
         }
     },
     components: { IconButton, ProfileDropdownMenu }

@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios"
 
 const client = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: `${window.location.origin}/api`,
     headers: {
         Accept: 'application/json',
         "Content-Type": "application/json"
