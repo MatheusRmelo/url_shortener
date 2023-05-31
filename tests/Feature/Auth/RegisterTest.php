@@ -54,7 +54,12 @@ class RegisterTest extends TestCase
             'email' => 'teste1@gmail.com',
             'password' => 'test123456',
         ]);
-        $response->assertStatus(403);
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            'errors'=>[
+                'email'
+            ]
+        ]);
     }
 
     public function completeAndCorrectData()
