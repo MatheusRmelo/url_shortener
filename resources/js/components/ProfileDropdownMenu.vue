@@ -56,7 +56,7 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-    :deep button {
+    :deep(button) {
         min-height: initial;
         height: auto;
     }

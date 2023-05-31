@@ -47,7 +47,7 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-    :deep .modal {
+    :deep(.modal) {
         width: 20%;
         height: auto;
         min-height: initial;
@@ -61,12 +61,12 @@ export default defineComponent({
     }
 
     @media screen and (max-width:1200px) {
-        :deep .modal {
+        :deep(.modal) {
             width: 40%;
         }
     }
     @media screen and (max-width:767px) {
-        :deep .modal {
+        :deep(.modal) {
             width: 80%;
         }
     }
