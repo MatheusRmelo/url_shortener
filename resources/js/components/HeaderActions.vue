@@ -1,6 +1,6 @@
 <template>
     <div class="header-actions">
-        <IconButton icon="isax-search-normal" :in-secondary="true"/>
+        <IconButton icon="isax-search-normal" :in-secondary="true" @click="$emit('search-mode')"/>
         <div class="search-area">
             <Input placeholder="Pesquise ou cole a URL" v-model:value="search" @update:value="$emit('search', search)" :centered="true" :bold="true"/>
         </div>
@@ -14,7 +14,7 @@ import Input from './Input.vue';
 
 export default defineComponent({
     name: "HeaderActions",
-    emits: ['add', 'search'],
+    emits: ['add', 'search', 'search-mode'],
     data(){
         return {
             search: ""

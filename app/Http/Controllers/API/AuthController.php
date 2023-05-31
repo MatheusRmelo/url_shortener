@@ -45,4 +45,10 @@ class AuthController extends Controller
 
         return $this->create($user->createToken($request->userAgent() ?? "no device")->plainTextToken, 'Sucesso ao criar o usuário');
     }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->noContent();
+    }
 }

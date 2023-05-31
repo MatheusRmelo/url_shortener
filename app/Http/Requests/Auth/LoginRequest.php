@@ -11,7 +11,6 @@ class LoginRequest extends FormRequest
         return [
             'required' => 'O :attribute é uma informação obrigatória',
             'email' => 'O :attribute não está formatado corretamente',
-            'min' => 'O :attribute deve ter no mínimo o tamanho de :min caracteres',
         ];
     }
 
@@ -24,7 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
         ];
     }
 }

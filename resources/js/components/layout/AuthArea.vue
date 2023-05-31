@@ -50,8 +50,15 @@ export default defineComponent({
 
     @media screen and (max-width: 767px) {
         .auth-area {
-            margin-top: 5%;
             width: 100%;
+            height: 100vh;
+            background-color: var(--color-secondary);
+
+            align-items: start;
+            padding-top: 15%;
+        }
+
+        .auth-area > .form-area {
             height: 100%;
         }
     }

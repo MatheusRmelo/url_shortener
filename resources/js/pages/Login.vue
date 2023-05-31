@@ -5,6 +5,7 @@
     >
         <Input
             label="E-mail"
+            type="email"
             placeholder="Digite o seu e-mail"
             v-model:value="email"
             :error="errors && errors['email'] ? errors['email'][0] : ''"
